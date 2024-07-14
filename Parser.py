@@ -5,6 +5,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver import DesiredCapabilities
 from dotenv import load_dotenv
 import os
+load_dotenv()
 
 username = os.environ.get("username")
 password = os.environ.get("password")
