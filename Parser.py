@@ -19,7 +19,7 @@ options.set_capability("acceptInsecureCerts",True)
 options.add_argument("--no-sandbox")
 options.add_experimental_option("excludeSwitches",["ignore-certificate-errors"])
 options.add_argument("--headless")
-driver = webdriver.Chrome(chrome_options=options, )
+driver = webdriver.Chrome(options=options, )
 
 driver.minimize_window()
 driver.set_window_position(-2000, 0)
