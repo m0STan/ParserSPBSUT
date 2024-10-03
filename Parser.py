@@ -2,25 +2,30 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver import ChromeOptions
 from selenium.webdriver import DesiredCapabilities
+
+from selenium.webdriver.chrome.service import Service as ChromeService
 from dotenv import load_dotenv
 import os
 load_dotenv()
 
-username = os.environ.get("username")
-password = os.environ.get("password")
+username = "shnyrok2002@gmail.com"
+password = "alesha2002"
 
 
 options = Options()
 options.set_capability("acceptInsecureCerts",True)
-driver = webdriver.Chrome(options=options, )
+options.add_argument("--no-sandbox")
+options.add_experimental_option("excludeSwitches",["ignore-certificate-errors"])
+options.add_argument("--headless")
+driver = webdriver.Chrome(chrome_options=options, )
 
-options.add_argument("headless")
 driver.minimize_window()
 driver.set_window_position(-2000, 0)
 
 
-# head to github login page
+
 driver.get("https://lk.sut.ru/cabinet/?login=no")
 driver.implicitly_wait(0.5)
 
@@ -53,33 +58,35 @@ if elements[1:]:
 
     driver.implicitly_wait(0.5)
 
-    driver.get("https://lk.sut.ru/cabinet/?login=yes")
+    try:
+        driver.get("https://lk.sut.ru/cabinet/?login=yes")
 
-    driver.implicitly_wait(0.5)
+        driver.implicitly_wait(0.5)
 
-    driver.find_element(By.CSS_SELECTOR,"#heading1 > h5 > div").click()
+        driver.find_element(By.CSS_SELECTOR,"#heading1 > h5 > div").click()
 
-    driver.implicitly_wait(0.5)
+        driver.implicitly_wait(0.5)
 
-    driver.find_element(By.CSS_SELECTOR,'#menu_li_6118').click()
-
+        driver.find_element(By.CSS_SELECTOR,'#menu_li_6118').click()
+    except:
+        print(".Click Exception")
     if len(ls1):
         for i in ls1:
             s = '#knop'
             s+=i
             s+=' > a'
-            print(s)
-            element = driver.find_element(By.CSS_SELECTOR, s)
-            element.click()
-            element.click()
-            
+            # print(s)
+            try:
+                element = driver.find_element(By.CSS_SELECTOR, s)
+                element.click()
+                # element.click()
+            except:
+                print("Занятие еще не началось или отсутствует")
     driver.get("https://lk.sut.ru/cabinet/project/cabinet/forms/raspisanie.php")
 
     elements = driver.find_elements(By.TAG_NAME,'span')
-
+    print("Проверка")
     for i in elements[1:]:
         print(i.text)
-    print("Well Done")
-print("Занятий нет")
 driver.close()
 
